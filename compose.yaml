@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  app:
+    image: devcloudarmel/licence-safidy
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    depends_on:
+      - db
+    networks:
+      - licence-net
+
+  db:
+    image: mysql:8.0
+    container_name: localhost
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: bd_sco
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - licence-net
+
+volumes:
+  db_data:
+
+networks:
+  licence-net:
